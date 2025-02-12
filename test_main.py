@@ -4,6 +4,9 @@ from datetime import datetime, timedelta
 import jwt
 from fastapi.testclient import TestClient
 
+os.environ["JWT_SECRET_KEY"] = "test_secret"
+os.environ["CONTAINER_ID"] = "test_container_123"
+
 from main import app
 
 client = TestClient(app)
