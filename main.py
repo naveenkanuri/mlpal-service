@@ -1,7 +1,9 @@
-from fastapi import FastAPI, Depends
-from auth import AuthHandler
-from pydantic import BaseModel
 from typing import Optional
+
+from fastapi import Depends, FastAPI
+from pydantic import BaseModel
+
+from auth import AuthHandler
 
 app = FastAPI()
 auth_handler = AuthHandler()
@@ -21,8 +23,8 @@ class ProcessResponse(BaseModel):
 
 
 @app.get("/health")
-async def health_check(user_data: dict = Depends(auth_handler.auth_wrapper)):
-    return {"status": "healthy", "version": "1.0.0", "user_id": user_data["user_id"]}
+async def health_check():
+    return {"status": "healthy", "version": "1.0.0"}
 
 
 @app.post("/api/v1/process", response_model=ProcessResponse)
