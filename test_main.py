@@ -25,21 +25,12 @@ def create_test_token(user_id="test_user", container_id="test_container_123"):
     return jwt.encode(payload, secret_key, algorithm="HS256")
 
 
-def test_health_check_with_valid_token():
-    token = create_test_token()
-    headers = {"Authorization": f"Bearer {token}"}
-    response = client.get("/health", headers=headers)
+def test_health():
+    response = client.get("/health")
     assert response.status_code == 200
     data = response.json()
     assert data["status"] == "healthy"
     assert data["version"] == "1.0.0"
-    assert data["user_id"] == "test_user"
-
-
-def test_health_check_without_token():
-    response = client.get("/health")
-    assert response.status_code == 403
-    assert response.json()["detail"] == "Not authenticated"
 
 
 def test_process_data_with_valid_token():
